@@ -6,10 +6,16 @@ from bs4 import BeautifulSoup
 
 ARC_URL = "https://witchculttranslation.com/arc-6/"
 
+# Корень проекта ReZeroArc6
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Папка для исходных глав
+CHAPTERS_DIR = os.path.join(BASE_DIR, "chapters")
+
 
 def download_chapters():
     # Создаём папку для исходных глав
-    os.makedirs("../chapters", exist_ok=True)
+    os.makedirs(CHAPTERS_DIR, exist_ok=True)
 
     # Получаем страницу Arc 6
     response = requests.get(ARC_URL)
@@ -30,6 +36,10 @@ def download_chapters():
         if not url:
             continue
 
+        # Если это Arc 10 — нахуй
+        if "Arc 10" in text:
+            continue
+
         # Берём только ссылки, в названии которых есть Chapter
         if "Chapter" in text:
             chapters.append((text, url))
@@ -43,7 +53,10 @@ def download_chapters():
         print(f"   {url}")
 
         try:
-            chapter_response = requests.get(url, timeout=30)
+            chapter_response = requests.get(
+                url,
+                timeout=30
+            )
 
             if chapter_response.status_code != 200:
                 print(
@@ -52,14 +65,27 @@ def download_chapters():
                 )
                 continue
 
-            filename = f"chapters/chapter_{i:02d}.html"
+            filename = os.path.join(
+                CHAPTERS_DIR,
+                f"chapter_{i:02d}.html"
+            )
 
-            with open(filename, "w", encoding="utf-8") as file:
+            with open(
+                filename,
+                "w",
+                encoding="utf-8"
+            ) as file:
                 file.write(chapter_response.text)
 
             print(f"   ✅ Сохранено: {filename}")
 
         except requests.RequestException as error:
-            print(f"   ❌ Ошибка соединения: {error}")
+            print(
+                f"   ❌ Ошибка соединения: {error}"
+            )
 
     print("\n🎉 Скачивание завершено!")
+
+
+if __name__ == "__main__":
+    download_chapters()
