@@ -1,34 +1,35 @@
 from bs4 import BeautifulSoup
 import os
 
+
 def clean_chapter(input_file, output_file):
-    # Открываем исходную страницу
+    # Open the source page
     with open(input_file, "r", encoding="utf-8") as file:
         html = file.read()
 
     soup = BeautifulSoup(html, "html.parser")
 
-    # Заголовок
+    # Find the chapter title
     title = soup.find(class_="entry-title")
 
     if title is None:
-        print(f"❌ Заголовок не найден: {input_file}")
+        print(f"❌ Title not found: {input_file}")
         return
 
-    # Текст главы
+    # Find the chapter content
     content = soup.find(class_="entry-content")
 
     if content is None:
-        print(f"❌ entry-content не найден: {input_file}")
+        print(f"❌ entry-content not found: {input_file}")
         return
 
-    # Удаляем первые 8 элементов мусора
+    # Remove the first 8 unnecessary elements
     elements = content.find_all(recursive=False)
 
     for element in elements[:8]:
         element.decompose()
 
-    # Создаём готовый HTML
+    # Create the cleaned HTML
     output = f"""
 <!DOCTYPE html>
 <html>
@@ -72,9 +73,11 @@ def clean_chapter(input_file, output_file):
 </body>
 </html>
 """
+
+    # Create the output directory if it does not exist
     os.makedirs("../clean_chapters", exist_ok=True)
 
-    # Сохраняем
+    # Save the cleaned chapter
     with open(output_file, "w", encoding="utf-8") as file:
         file.write(output)
 

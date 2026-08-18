@@ -7,14 +7,14 @@ def clean_other_chapter(input_file, output_file):
 
     soup = BeautifulSoup(html, "html.parser")
 
-    # Основной контейнер текста
+    # Main chapter text container
     content = soup.find("div", class_="reader-paged-content")
 
     if content is None:
-        print(f"❌ Текст главы не найден: {input_file}")
+        print(f"❌ Chapter text not found: {input_file}")
         return
 
-    # Заголовок
+    # Chapter title
     title = soup.find("h1")
 
     if title is not None:
@@ -22,7 +22,7 @@ def clean_other_chapter(input_file, output_file):
     else:
         title_text = soup.title.get_text(" ", strip=True) if soup.title else "Re:Zero"
 
-    # Удаляем дублирующий заголовок ТОЛЬКО из body
+    # Remove the duplicate title ONLY from the body
     duplicate_title = content.find(
         class_="mb-[1em] mt-[2em] text-center text-[2xl] md:text-4xl"
     )
