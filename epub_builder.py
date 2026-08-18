@@ -9,7 +9,7 @@ from ebooklib import epub
 # ==========================================
 
 CLEAN_CHAPTERS_DIR = "clean_chapters"
-OUTPUT_FILE = "Re_Zero_Arc_6.epub"
+OUTPUT_FILE = "output/Re_Zero_Arc_6.epub"
 
 
 # ==========================================
@@ -399,7 +399,7 @@ def build_epub():
     # ОБЛОЖКА
     # ==========================================
 
-    with open("cover_final.jpeg", "rb") as cover_file:
+    with open("assets/cover_final.jpeg", "rb") as cover_file:
         cover_image = cover_file.read()
 
     book.set_cover(

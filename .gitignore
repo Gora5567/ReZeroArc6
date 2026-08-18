@@ -2,8 +2,6 @@
 __pycache__/
 *.pyc
 
-*.epub
-
 clean_chapters/
 chapters/
 downloads/
