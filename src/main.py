@@ -18,7 +18,7 @@ download_chapters()
 # 2. СОЗДАЁМ ПАПКУ ДЛЯ ГОТОВЫХ ГЛАВ
 # ==========================================
 
-os.makedirs("clean_chapters", exist_ok=True)
+os.makedirs("../clean_chapters", exist_ok=True)
 
 
 # ==========================================

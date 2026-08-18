@@ -9,7 +9,7 @@ ARC_URL = "https://witchculttranslation.com/arc-6/"
 
 def download_chapters():
     # Создаём папку для исходных глав
-    os.makedirs("chapters", exist_ok=True)
+    os.makedirs("../chapters", exist_ok=True)
 
     # Получаем страницу Arc 6
     response = requests.get(ARC_URL)

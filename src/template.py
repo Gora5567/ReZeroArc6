@@ -72,7 +72,7 @@ def clean_chapter(input_file, output_file):
 </body>
 </html>
 """
-    os.makedirs("clean_chapters", exist_ok=True)
+    os.makedirs("../clean_chapters", exist_ok=True)
 
     # Сохраняем
     with open(output_file, "w", encoding="utf-8") as file:

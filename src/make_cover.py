@@ -1,8 +1,8 @@
 from PIL import Image, ImageDraw, ImageFont
 
 
-INPUT_FILE = "assets/cover.jpeg"
-OUTPUT_FILE = "assets/cover_final.jpeg"
+INPUT_FILE = "../assets/cover.jpeg"
+OUTPUT_FILE = "../assets/cover_final.jpeg"
 
 
 # ==========================================
