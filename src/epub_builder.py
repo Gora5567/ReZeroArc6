@@ -8,8 +8,28 @@ from ebooklib import epub
 # НАСТРОЙКИ
 # ==========================================
 
-CLEAN_CHAPTERS_DIR = "../clean_chapters"
-OUTPUT_FILE = "../output/Re_Zero_Arc_6.epub"
+PROJECT_ROOT = os.path.dirname(
+    os.path.dirname(
+        os.path.abspath(__file__)
+    )
+)
+
+CLEAN_CHAPTERS_DIR = os.path.join(
+    PROJECT_ROOT,
+    "clean_chapters"
+)
+
+OUTPUT_FILE = os.path.join(
+    PROJECT_ROOT,
+    "output",
+    "Re_Zero_Arc_6.epub"
+)
+
+COVER_FILE = os.path.join(
+    PROJECT_ROOT,
+    "assets",
+    "cover_final.jpeg"
+)
 
 
 # ==========================================
@@ -399,7 +419,7 @@ def build_epub():
     # ОБЛОЖКА
     # ==========================================
 
-    with open("../assets/cover_final.jpeg", "rb") as cover_file:
+    with open(COVER_FILE, "rb") as cover_file:
         cover_image = cover_file.read()
 
     book.set_cover(

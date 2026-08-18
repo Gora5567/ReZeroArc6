@@ -1,78 +1,174 @@
-import os
+from pathlib import Path
 
 from downloader import download_chapters
 from template import clean_chapter
 from template_other import clean_other_chapter
+from epub_builder import build_epub
 
 
 # ==========================================
-# 1. СКАЧИВАЕМ ВСЕ ГЛАВЫ
+# PATHS
 # ==========================================
 
-print("\n📥 Начинаем скачивание глав...\n")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+CHAPTERS_DIR = PROJECT_ROOT / "chapters"
+CLEAN_CHAPTERS_DIR = PROJECT_ROOT / "clean_chapters"
+
+
+# ==========================================
+# ВОПРОС
+# ==========================================
+
+def ask_to_continue(question):
+
+    answer = input(
+        f"\n{question} (Y/N): "
+    ).strip().lower()
+
+    return answer == "y"
+
+
+# ==========================================
+# START
+# ==========================================
+
+print("\n" + "=" * 55)
+print("📖 Re:Zero Arc 6 — EPUB Builder")
+print("=" * 55)
+
+
+# ==========================================
+# 1. DOWNLOAD
+# ==========================================
+
+if not ask_to_continue(
+    "Do you wish to start downloading chapters?"
+):
+
+    print("\n🛑 Process stopped.")
+    exit()
+
+
+print("\n" + "=" * 55)
+print("📥 DOWNLOADING CHAPTERS")
+print("=" * 55)
 
 download_chapters()
 
 
 # ==========================================
-# 2. СОЗДАЁМ ПАПКУ ДЛЯ ГОТОВЫХ ГЛАВ
+# 2. CLEANING
 # ==========================================
 
-os.makedirs("../clean_chapters", exist_ok=True)
+if not ask_to_continue(
+    "Do you wish to continue to the cleaning?"
+):
+
+    print("\n🛑 Process stopped.")
+    exit()
+
+
+print("\n" + "=" * 55)
+print("🧹 CLEANING CHAPTERS")
+print("=" * 55)
+
+CLEAN_CHAPTERS_DIR.mkdir(
+    parents=True,
+    exist_ok=True
+)
 
 
 # ==========================================
-# 3. ОБРАБАТЫВАЕМ ГЛАВЫ 1–88
+# CHAPTERS 1–88
 # ==========================================
 
-print("\n🧹 Обрабатываем главы 1–88...\n")
+print("\n🧹 Cleaning chapters 1–88...\n")
 
 for i in range(1, 89):
 
-    input_file = f"chapters/chapter_{i:02d}.html"
-    output_file = f"clean_chapters/chapter_{i:02d}_clean.html"
+    input_file = (
+        CHAPTERS_DIR /
+        f"chapter_{i:02d}.html"
+    )
 
-    if not os.path.exists(input_file):
-        print(f"⚠️ Файл не найден: {input_file}")
+    output_file = (
+        CLEAN_CHAPTERS_DIR /
+        f"chapter_{i:02d}_clean.html"
+    )
+
+    if not input_file.exists():
+
+        print(
+            f"⚠️ File not found: {input_file}"
+        )
+
         continue
 
-    clean_chapter(input_file, output_file)
+    clean_chapter(
+        str(input_file),
+        str(output_file)
+    )
 
 
 # ==========================================
-# 4. ОБРАБАТЫВАЕМ ГЛАВЫ 89–90
+# CHAPTERS 89–90
 # ==========================================
 
-print("\n🧹 Обрабатываем главы 89–90...\n")
+print("\n🧹 Cleaning chapters 89–90...\n")
 
 for i in range(89, 91):
 
-    input_file = f"chapters/chapter_{i:02d}.html"
-    output_file = f"clean_chapters/chapter_{i:02d}_clean.html"
+    input_file = (
+        CHAPTERS_DIR /
+        f"chapter_{i:02d}.html"
+    )
 
-    if not os.path.exists(input_file):
-        print(f"⚠️ Файл не найден: {input_file}")
+    output_file = (
+        CLEAN_CHAPTERS_DIR /
+        f"chapter_{i:02d}_clean.html"
+    )
+
+    if not input_file.exists():
+
+        print(
+            f"⚠️ File not found: {input_file}"
+        )
+
         continue
 
-    clean_other_chapter(input_file, output_file)
+    clean_other_chapter(
+        str(input_file),
+        str(output_file)
+    )
+
+
+print("\n✅ Cleaning finished!")
 
 
 # ==========================================
-# 5. ГОТОВО
+# 3. EPUB
 # ==========================================
 
-print("\n" + "=" * 50)
-print("🎉 ВСЁ ГОТОВО!")
-print("=" * 50)
+if not ask_to_continue(
+    "Do you wish to continue to build the EPUB?"
+):
 
-print("\n📁 Исходные главы:")
-print("   chapters/")
+    print("\n🛑 Process stopped.")
+    exit()
 
-print("\n📖 Очищенные главы:")
-print("   clean_chapters/")
 
-print("\nТеперь можно проверить:")
-print("   chapter_01_clean.html")
-print("   chapter_50_clean.html")
-print("   chapter_89_clean.html")
-print("   chapter_90_clean.html")
+print("\n" + "=" * 55)
+print("📚 BUILDING EPUB")
+print("=" * 55)
+
+build_epub()
+
+
+# ==========================================
+# DONE
+# ==========================================
+
+print("\n" + "=" * 55)
+print("🎉 PROJECT COMPLETE!")
+print("=" * 55)
