@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+
+*.epub
+
+clean_chapters/
+chapters/
+downloads/
+
+.DS_Store
+.idea/
